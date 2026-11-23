@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-Hant">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RAG 是什麼？讓 AI 先查資料再回答</title>
+<style>
+:root{color-scheme:dark;--text:#f7f3e9;--accent:#adf1ce;--muted:#c5d9d0}
+*{box-sizing:border-box}body{margin:0;background:#102724;color:var(--text);font:clamp(1rem,2.1vw,1.5rem)/1.65 system-ui,sans-serif}
+header,main,footer{max-width:66rem;margin:auto;padding:1rem clamp(1rem,5vw,4rem)}
+header,footer{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:1rem}
+h1,h2{font-family:Georgia,"Noto Serif TC",serif;line-height:1.16;margin:0 0 1.2rem}
+h1{font-size:clamp(2.6rem,8vw,6rem)}h2{font-size:clamp(2rem,5vw,3.8rem);outline-offset:6px}
+h1 span{display:block;color:var(--accent);font-size:.55em;margin-top:.6rem}
+section{min-height:63vh;border-top:1px solid #52746b;padding:clamp(1.2rem,5vw,4rem) 0}
+a{color:var(--accent);text-underline-offset:.22em}small{color:var(--muted);font-size:.8em}
+.card{background:#1b3833;padding:1rem 1.25rem;border-radius:.7rem;margin:.8rem 0}
+.flow{display:flex;gap:.6rem;flex-wrap:wrap;padding:0;list-style:none}
+.flow li{border:1px solid #709388;border-radius:5rem;padding:.3rem .9rem}
+button{font:inherit;border:1px solid #709388;background:#1b3833;color:var(--text);padding:.4rem .9rem;border-radius:.45rem;cursor:pointer}
+button:hover:not(:disabled){background:#31574d}button:disabled{opacity:.55;cursor:default}
+summary{cursor:pointer;color:var(--accent)}
+@media print{body{background:white;color:black}section,section[hidden]{display:block;break-after:page}a,small,h1 span,summary{color:black}header,footer{display:none}.card{background:#eee}}
+</style>
+<header><strong>RAG 入門</strong><a href="Wiki.html">閱讀 LLM Wiki</a></header>
+<main>
+<section id="slide-1">
+<h1 tabindex="-1">RAG 是什麼？<span>讓 AI 先查資料再回答</span></h1>
+<p class="card">「這學期什麼時候可以退選？」AI 需要找到哪一份公告，才能回答這個問題？</p>
+</section>
+<section id="slide-2">
+<h2 tabindex="-1">先找資料，再組織答案</h2>
+<p>RAG 全名是 Retrieval-Augmented Generation，中文常稱「檢索增強生成」。系統先找與問題相關的資料，再把資料放進模型可讀的上下文，讓模型據此回答。</p>
+<p class="card">檢索器找公告段落。生成模型把段落中的規定整理成讀者看得懂的答案。</p>
+<small>來源 <a href="Wiki.html#s1">S1 · RAG 原始研究</a></small>
+</section>
+<section id="slide-3">
+<h2 tabindex="-1">一個問題如何變成答案？</h2>
+<ol class="flow"><li>① 建立索引</li><li>② 取回段落</li><li>③ 帶入上下文</li><li>④ 生成答案</li></ol>
+<p>事先整理校務公告。收到提問後，檢索器挑出與退選有關的段落。模型看到問題與段落，才組織回答。</p>
+<p>部分系統會把問題和段落表示成向量，以向量分數找候選段落。也有方法會在生成途中再次檢索。</p>
+<small>來源 <a href="Wiki.html#s1">S1 · RAG</a>、<a href="Wiki.html#s2">S2 · DPR</a>、<a href="Wiki.html#s5">S5 · FLARE</a></small>
+</section>
+<section id="slide-4">
+<h2 tabindex="-1">找到公告後，還要查什麼？</h2>
+<p>確認公告的學期、適用對象與日期，再看引用段落能否支持答案。大量段落也可能讓關鍵資訊較難被模型利用。</p>
+<p class="card">若只找到上學期的公告，回覆「目前找到的是上學期公告，還無法確認本學期日期。」</p>
+<small>來源 <a href="Wiki.html#s3">S3 · 引用品質</a>、<a href="Wiki.html#s4">S4 · 長上下文</a>。退選情境為教學示例。</small>
+</section>
+<section id="slide-5">
+<h2 tabindex="-1">練習：哪份公告能支持回答？</h2>
+<p>假設問題是「115-1 什麼時候可以退選？」以下兩份為虛構公告。</p>
+<div class="card">A｜114-2 學期退選公告，4 月 30 日截止。</div>
+<div class="card">B｜115-1 學期退選公告，11 月 20 日截止，適用大學部。</div>
+<details><summary>查看答案</summary><p>B 支持「115-1 大學部退選截止日為 11 月 20 日」。若提問者是研究生，還要找適用研究生的公告。</p></details>
+</section>
+<section id="slide-6">
+<h2 tabindex="-1">用自己的話說一次</h2>
+<p class="card">RAG 讓 AI 先從外部資料找相關段落，再據此回答。要檢查回答，就回到原文核對適用範圍，並確認段落確實支持主張。</p>
+<p>延伸閱讀 <a href="Wiki.html#sources">Wiki 的五篇來源與筆記</a></p>
+</section>
+</main>
+<footer id="navigation" hidden>
+<button id="previous" type="button">上一頁</button>
+<span id="position" aria-live="polite"></span>
+<button id="next" type="button">下一頁</button>
+</footer>
+<script>
+const slides = Array.from(document.querySelectorAll('main section'));
+const previous = document.querySelector('#previous');
+const next = document.querySelector('#next');
+const position = document.querySelector('#position');
+let current = 0;
+
+function render(focusHeading = false) {
+  const requested = slides.findIndex(slide => '#' + slide.id === location.hash);
+  current = Math.max(0, requested);
+  slides.forEach((slide, index) => { slide.hidden = index !== current; });
+  previous.disabled = current === 0;
+  next.disabled = current === slides.length - 1;
+  position.textContent = (current + 1) + ' / ' + slides.length;
+  if (focusHeading) slides[current].querySelector('h1, h2').focus();
+}
+
+function move(offset) {
+  const target = slides[current + offset];
+  if (target) location.hash = target.id;
+}
+
+previous.addEventListener('click', () => move(-1));
+next.addEventListener('click', () => move(1));
+window.addEventListener('hashchange', () => render(true));
+window.addEventListener('keydown', event => {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.defaultPrevented) return;
+  if (event.key === 'ArrowLeft') move(-1);
+  if (event.key === 'ArrowRight') move(1);
+});
+document.querySelector('#navigation').hidden = false;
+render();
+</script>
+</html>
