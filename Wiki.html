@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-Hant">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RAG｜LLM Wiki</title>
+<style>
+body{max-width:52rem;margin:3rem auto;padding:0 1.25rem;background:#fbf8ef;color:#172f2b;font:1.05rem/1.8 system-ui,sans-serif}
+article{padding:1rem 1.4rem;margin:1rem 0;background:white;border-left:4px solid #187f69}a{color:#126556}h1,h2,h3{line-height:1.25}nav a{display:inline-block;margin-right:1rem}
+</style>
+<header>
+<h1>RAG｜LLM Wiki</h1>
+<p>給第一次接觸 RAG 的同學。從退選公告案例認識檢索、生成，以及如何檢查回答的依據。</p>
+<nav aria-label="Wiki 目錄"><a href="#definition">基本概念</a><a href="#pipeline">檢索流程</a><a href="#evaluation">品質檢查</a><a href="#sources">五篇來源</a><a href="簡報.html">教學簡報</a></nav>
+</header>
+<main>
+<section id="definition">
+<h2>RAG 是什麼？</h2>
+<p>RAG 是 Retrieval-Augmented Generation，中文常稱「檢索增強生成」。系統取得相關外部資料，把資料作為模型生成答案的上下文。Lewis 等人的研究使用維基百科的向量索引搭配生成模型。<a href="#s1">S1</a></p>
+<p>教學案例是「這學期什麼時候可以退選？」系統可以從校務公告找出相關段落，再據此回答並附上來源。<a href="#evaluation">參見品質檢查</a></p>
+</section>
+<section id="pipeline">
+<h2>系統怎麼查資料？</h2>
+<p>先準備文件與可查詢的索引。接到問題時，檢索器找候選段落，生成模型讀取問題與選定段落後組織答案。DPR 示範了把問題和段落換成向量，再用向量分數挑選候選段落。<a href="#s1">S1</a>、<a href="#s2">S2</a></p>
+<p>有些方法會在生成途中再查一次。FLARE 以預測的文字及低信心訊號決定何時再次檢索。<a href="#s5">S5</a></p>
+</section>
+<section id="evaluation">
+<h2>怎麼知道回答有根據？</h2>
+<p>先確認來源是否適用於問題，再確認段落能支持回答的每項主張。以退選為例，「退選」兩字相符之後，還要查學期、適用對象與日期。缺少當期公告時，可回報目前資料不足。這是本作業根據引用查核概念設計的教學例子。<a href="#s3">S3</a></p>
+<p>加入許多段落也可能讓關鍵內容較難被利用。Liu 等人在測試中發現，將關鍵資訊移到長上下文中間時，表現常下降。整理教學教材時，可優先保留最直接支持主張的短段落。<a href="#s4">S4</a></p>
+</section>
+<section id="sources">
+<h2>五篇來源的摘要筆記</h2>
+<p>本 Wiki 匯入各篇論文的摘要重點，每張來源卡保留原文與對應條目。</p>
+<article id="s1"><h3>S1 · Lewis 等人（2020）</h3><p>結合生成模型與可檢索的外部記憶。論文使用維基百科向量索引，並比較整段輸出共用檢索段落與依詞元採用不同段落的形式。</p><p><a href="#definition">對應條目：基本概念</a> · <a href="https://arxiv.org/abs/2005.11401">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a></p></article>
+<article id="s2"><h3>S2 · Karpukhin 等人（2020）</h3><p>DPR 使用雙編碼器分別表示問題與段落，用來從開放領域語料中挑出可能供問答使用的候選段落。</p><p><a href="#pipeline">對應條目：檢索流程</a> · <a href="https://arxiv.org/abs/2004.04906">Dense Passage Retrieval for Open-Domain Question Answering</a></p></article>
+<article id="s3"><h3>S3 · Gao 等人（2023）</h3><p>ALCE 從流暢度、正確性及引用品質評估附引用的回答。實驗顯示，有引用的答案仍可能缺乏完整的證據支持。</p><p><a href="#evaluation">對應條目：品質檢查</a> · <a href="https://arxiv.org/abs/2305.14627">Enabling Large Language Models to Generate Text with Citations</a></p></article>
+<article id="s4"><h3>S4 · Liu 等人（2024）</h3><p>研究改變關鍵資訊在長上下文中的位置，並觀察到放在中間時，受測模型的表現往往比放在開頭或末尾差。</p><p><a href="#evaluation">對應條目：品質檢查</a> · <a href="https://arxiv.org/abs/2307.03172">Lost in the Middle</a></p></article>
+<article id="s5"><h3>S5 · Jiang 等人（2023）</h3><p>FLARE 在長文生成期間預測接下來的文字，遇到低信心詞元時可觸發再次檢索，再重新生成該句。</p><p><a href="#pipeline">對應條目：檢索流程</a> · <a href="https://arxiv.org/abs/2305.06983">Active Retrieval Augmented Generation</a></p></article>
+</section>
+</main>
+</html>
